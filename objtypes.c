@@ -1,5 +1,6 @@
 #include "objtypes.h"
 #include "globaldef.h"
+#include <stdio.h>
 //void UselessFunction() {
 //printf("USELESS FUNCTION YAY");
 //}

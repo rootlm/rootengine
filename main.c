@@ -53,7 +53,7 @@ InitObjectArray();
 float* sine;
 sine = (float *) malloc(sizeof(float));
 
-//some variables used in a test game on an old version
+//some variables i used in a test game on an old version
 signed short* tempobj; //used this to store ids of created objects to edit their variables at creation
 tempobj = (signed short *) malloc(sizeof(signed short));
 
@@ -81,7 +81,7 @@ UpdateKeys();
 
 draw_sprite_ext(3,320,240,2.5+dsin(*timer)*1.5,2.5+dsin(*timer)*1.5,rand()%360);
 *timer += 1;
-printf("%i\n",*timer);
+//printf("%i\n",*timer);
 
 //player (there isn't an object loop so eh)
 if (keyboard_check(LeftButtonState)) {
@@ -101,16 +101,8 @@ draw_sprite_ext(SPR_PLAYER,Objects[0].x,Objects[0].y,1,1,0);
 
 
 SDL_SetRenderTarget(renderer,NULL);
-void draw_game() {
-SDL_Rect dgsrect;
-dgsrect.x = 0;
-dgsrect.y = 0;
-dgsrect.w = SCREEN_WIDTH;
-dgsrect.h = SCREEN_HEIGHT;
-SDL_RenderCopyEx(renderer,GAME_SURFACE,&dgsrect,NULL,0,NULL,SDL_FLIP_NONE);
-
-}
-draw_game();
+//Draw the game surface!
+SDL_RenderCopyEx(renderer,GAME_SURFACE,NULL,NULL,0,NULL,SDL_FLIP_NONE);
 
 
 SDL_RenderPresent(renderer);
