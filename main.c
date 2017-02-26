@@ -101,6 +101,7 @@ draw_sprite_ext(SPR_PLAYER,Objects[0].x,Objects[0].y,1,1,0);
 
 
 SDL_SetRenderTarget(renderer,NULL);
+//Draw the game surface!
 SDL_RenderCopyEx(renderer,GAME_SURFACE,NULL,NULL,0,NULL,SDL_FLIP_NONE);
 
 
