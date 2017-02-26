@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
+#include <stdio.h>
 #include "render.h"
 #include "globaldef.h"
 #include "sprtypes.h"
