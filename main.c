@@ -53,9 +53,7 @@ InitObjectArray();
 float* sine;
 sine = (float *) malloc(sizeof(float));
 
-//SOMEHOW HAVING A PLAYER WITHOUT MALLOC CAUSES IT TO CRASH EXACTLY 2043 FRAMES IN. WHAT THE FUCK?!
-
-//some variables used in mrisy
+//some variables used in a test game on an old version
 signed short* tempobj; //used this to store ids of created objects to edit their variables at creation
 tempobj = (signed short *) malloc(sizeof(signed short));
 
