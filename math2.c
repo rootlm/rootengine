@@ -1,3 +1,5 @@
+#include <math.h>
+
 float degtorad(float degtoconv) {
 return ((degtoconv * 3.14) / 180);
 }
