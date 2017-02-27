@@ -74,7 +74,7 @@ int initimgflags=IMG_INIT_PNG;
 IMG_Init(initimgflags);
 }
 
-void draw_sprite_ext(short dsprite,long dsx,long dsy,float dxsc,float dysc,short dsrot) {
+/*void draw_sprite_ext(short dsprite,long dsx,long dsy,float dxsc,float dysc,short dsrot) {
 SDL_Rect dspriterect;
 dspriterect.w=SpriteData[dsprite].framerect.w * dxsc;
 dspriterect.h=SpriteData[dsprite].framerect.h * dysc;
@@ -82,13 +82,21 @@ short divw = dspriterect.w / 2;
 short divy = dspriterect.h / 2;
 dspriterect.x=dsx-divw;
 dspriterect.y=dsy-divy;
-/*SDL_Rect dspritefrect;
-dspritefrect.x=SpriteData[dsprite].framerect.x;
-dspritefrect.y=SpriteData[dsprite].framerect.y;
-dspritefrect.w=SpriteData[dsprite].framerect.w;
-dspritefrect.h=SpriteData[dsprite].framerect.h;*/
 //&SpriteData[dsprite].framerect
 SDL_RenderCopyEx(renderer,SpriteData[dsprite].sheet,&SpriteData[dsprite].framerect,&dspriterect,dsrot,NULL,SDL_FLIP_NONE);
+}*/
+
+void draw_sprite_ext(short dsprite,long dsx,long dsy,float dxsc,float dysc,short dsrot) {
+SDL_Rect* dspriterect;
+	dspriterect = (SDL_Rect *) malloc(sizeof(SDL_Rect));
+	dspriterect->w=SpriteData[dsprite].framerect.w * dxsc;
+	dspriterect->h=SpriteData[dsprite].framerect.h * dysc;
+	dspriterect->x=dsx-(dspriterect->w / 2);
+	dspriterect->y=dsy-(dspriterect->h / 2);
+if (dspriterect != NULL) {
+	SDL_RenderCopyEx(renderer,SpriteData[dsprite].sheet,&SpriteData[dsprite].framerect,dspriterect,dsrot,NULL,SDL_FLIP_NONE);
+	free(dspriterect);
+	}
 }
 
 //THIS IS WHY C IS TERRIBLE GOD FUCKING DAMMIT JUST STOP CRASHING JESUS CHRIST HOLY FUCKING BALLS
