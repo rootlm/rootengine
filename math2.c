@@ -1,8 +1,8 @@
-float degtorad(double degtoconv) {
+float degtorad(float degtoconv) {
 return ((degtoconv * 3.14) / 180);
 }
 
-float radtodeg(double radtoconv) {
+float radtodeg(float radtoconv) {
 return ((radtoconv * 180) / 3.14);
 }
 
@@ -10,12 +10,12 @@ float point_direction(int x1, int y1, int x2, int y2) {
 return atan2(x2-x1, y2-y1);
 }
 
-float dsin(double dsinarg) {
+float dsin(float dsinarg) {
 return sin(degtorad(dsinarg));
 }
 
-float dcos(double dcosarg) {
-return sin(degtorad(dcosarg));
+float dcos(float dcosarg) {
+return cos(degtorad(dcosarg));
 }
 
 float point_distance(x1,y1,x2,y2) {
