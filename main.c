@@ -68,6 +68,11 @@ int* timer;
 timer = (int *) malloc(sizeof(int));
 *timer = 0;
 
+//printf("%.6f\n",dsin(180));
+//printf("%.6f\n",sin(3.14));
+//printf("%.6f\n",degtorad(180));
+
+
 CreateObject(0,320,240); //test player
 //------------------------------------------GAME LOOP
 while (quit == 0) {
@@ -79,7 +84,7 @@ SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 EventHandler();
 UpdateKeys();
 
-draw_sprite_ext(3,320,240,2.5+dsin(*timer)*1.5,2.5+dsin(*timer)*1.5,rand()%360);
+draw_sprite_ext(3,*timer / 6,320,240,2.5+dsin(*timer)*1.5,2.5+dsin(*timer)*1.5,rand()%360);
 *timer += 1;
 //printf("%i\n",*timer);
 
@@ -97,11 +102,10 @@ if (keyboard_check(LeftButtonState)) {
 	Objects[0].y += 4 - keyboard_check(JumpButtonState)*2;
 	}
 
-draw_sprite_ext(SPR_PLAYER,Objects[0].x,Objects[0].y,1,1,0);
+draw_sprite_ext(SPR_PLAYER,0,Objects[0].x,Objects[0].y,1,1,0);
 
 
 SDL_SetRenderTarget(renderer,NULL);
-//Draw the game surface!
 SDL_RenderCopyEx(renderer,GAME_SURFACE,NULL,NULL,0,NULL,SDL_FLIP_NONE);
 
 
