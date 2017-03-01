@@ -74,60 +74,33 @@ int initimgflags=IMG_INIT_PNG;
 IMG_Init(initimgflags);
 }
 
-/*void draw_sprite_ext(short dsprite,long dsx,long dsy,float dxsc,float dysc,short dsrot) {
-SDL_Rect dspriterect;
-dspriterect.w=SpriteData[dsprite].framerect.w * dxsc;
-dspriterect.h=SpriteData[dsprite].framerect.h * dysc;
-short divw = dspriterect.w / 2;
-short divy = dspriterect.h / 2;
-dspriterect.x=dsx-divw;
-dspriterect.y=dsy-divy;
-//&SpriteData[dsprite].framerect
-SDL_RenderCopyEx(renderer,SpriteData[dsprite].sheet,&SpriteData[dsprite].framerect,&dspriterect,dsrot,NULL,SDL_FLIP_NONE);
-}*/
 
-void draw_sprite_ext(short dsprite,long dsx,long dsy,float dxsc,float dysc,short dsrot) {
-SDL_Rect* dspriterect;
+void draw_sprite_ext(short dsprite,unsigned short dsfrm,float dsx,float dsy,float dxsc,float dysc,short dsrot) {
+SDL_Rect* dspriterect; //Destination rectangle (accounts for x and y scale, but origin can only be center right now)
 	dspriterect = (SDL_Rect *) malloc(sizeof(SDL_Rect));
 	dspriterect->w=SpriteData[dsprite].framerect.w * dxsc;
 	dspriterect->h=SpriteData[dsprite].framerect.h * dysc;
-	dspriterect->x=dsx-(dspriterect->w / 2);
-	dspriterect->y=dsy-(dspriterect->h / 2);
-if (dspriterect != NULL) {
-	SDL_RenderCopyEx(renderer,SpriteData[dsprite].sheet,&SpriteData[dsprite].framerect,dspriterect,dsrot,NULL,SDL_FLIP_NONE);
-	free(dspriterect);
+	dspriterect->x=dsx-(dspriterect->w / 2); //center origin
+	dspriterect->y=dsy-(dspriterect->h / 2); //see above
+SDL_Rect* dspritefrect; //Copy of the framerect that it uses for animation
+	dspritefrect = (SDL_Rect *) malloc(sizeof(SDL_Rect));
+	dspritefrect->w=SpriteData[dsprite].framerect.w;
+	dspritefrect->h=SpriteData[dsprite].framerect.h;
+	dspritefrect->x=SpriteData[dsprite].framerect.x;
+	if (SpriteData[dsprite].animlength == 0) {
+		dsfrm = 0; //modulo by 0 means rip so 
+	}
+	if (dsfrm > SpriteData[dsprite].animlength) {
+		dsfrm = dsfrm % SpriteData[dsprite].animlength; //make sure the frame number is within the animation length!
+	}
+	dspritefrect->x += SpriteData[dsprite].framerect.w * dsfrm;
+	dspritefrect->y=SpriteData[dsprite].framerect.y;
+
+	SDL_RenderCopyEx(renderer,SpriteData[dsprite].sheet,dspritefrect,dspriterect,dsrot,NULL,SDL_FLIP_NONE);
+	if (dspriterect != NULL) {
+		free(dspriterect);
+	}
+	if (dspritefrect != NULL) {
+	free(dspritefrect);
 	}
 }
-
-//THIS IS WHY C IS TERRIBLE GOD FUCKING DAMMIT JUST STOP CRASHING JESUS CHRIST HOLY FUCKING BALLS
-/*void draw_sprite_ext(short dsprite,short dsfrm,long dsx,long dsy,float dxsc,float dysc,short dsrot) {
-SDL_Rect dspriterect;
-dspriterect.w=SpriteData[dsprite].framerect.w * dxsc;
-dspriterect.h=SpriteData[dsprite].framerect.h * dysc;
-short* divw;
-divw = (short *) malloc(sizeof(short));
-*divw = dspriterect.w / 2;
-short* divy;
-divy = (short *) malloc(sizeof(short));
-*divy = dspriterect.h / 2;
-dspriterect.x=dsx - *divw;
-dspriterect.y=dsy - *divy;
-SDL_Rect* dspritefrect;
-dspritefrect = (SDL_Rect*) malloc(sizeof(SDL_Rect));
-dspritefrect->x=SpriteData[dsprite].framerect.x;
-dspritefrect->y=SpriteData[dsprite].framerect.y;
-dspritefrect->w=SpriteData[dsprite].framerect.w;
-dspritefrect->h=SpriteData[dsprite].framerect.h;
-	dspritefrect->x += dspritefrect->w * (dsfrm % SpriteData[dsprite].animlength);
-if (divw != NULL) {
-free(divw);
-}
-if (divy != NULL) {
-free(divy);
-}
-//&SpriteData[dsprite].framerect
-SDL_RenderCopyEx(renderer,SpriteData[dsprite].sheet,dspritefrect,&dspriterect,dsrot,NULL,SDL_FLIP_NONE);
-if (dspritefrect != NULL) {
-free(dspritefrect);
-}
-}*/
