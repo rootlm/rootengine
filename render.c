@@ -76,12 +76,16 @@ IMG_Init(initimgflags);
 
 
 void draw_sprite_ext(short dsprite,unsigned short dsfrm,float dsx,float dsy,float dxsc,float dysc,short dsrot) {
+SDL_Point* dspriteoffset; //self explanatory
+	dspriteoffset = (SDL_Point *) malloc(sizeof(SDL_Point));
+	dspriteoffset->x = SpriteData[dsprite].xoff;
+	dspriteoffset->y = SpriteData[dsprite].yoff;
 SDL_Rect* dspriterect; //Destination rectangle (accounts for x and y scale, but origin can only be center right now)
 	dspriterect = (SDL_Rect *) malloc(sizeof(SDL_Rect));
 	dspriterect->w=SpriteData[dsprite].framerect.w * dxsc;
 	dspriterect->h=SpriteData[dsprite].framerect.h * dysc;
-	dspriterect->x=dsx-(dspriterect->w / 2); //center origin
-	dspriterect->y=dsy-(dspriterect->h / 2); //see above
+	dspriterect->x=dsx-(dspriteoffset->x * dxsc);
+	dspriterect->y=dsy-(dspriteoffset->y * dysc);
 SDL_Rect* dspritefrect; //Copy of the framerect that it uses for animation
 	dspritefrect = (SDL_Rect *) malloc(sizeof(SDL_Rect));
 	dspritefrect->w=SpriteData[dsprite].framerect.w;
@@ -96,11 +100,16 @@ SDL_Rect* dspritefrect; //Copy of the framerect that it uses for animation
 	dspritefrect->x += SpriteData[dsprite].framerect.w * dsfrm;
 	dspritefrect->y=SpriteData[dsprite].framerect.y;
 
-	SDL_RenderCopyEx(renderer,SpriteData[dsprite].sheet,dspritefrect,dspriterect,dsrot,NULL,SDL_FLIP_NONE);
+	dspriteoffset->x *= dxsc;
+	dspriteoffset->y *= dysc;
+	SDL_RenderCopyEx(renderer,SpriteData[dsprite].sheet,dspritefrect,dspriterect,dsrot,dspriteoffset,SDL_FLIP_NONE);
 	if (dspriterect != NULL) {
 		free(dspriterect);
 	}
 	if (dspritefrect != NULL) {
 	free(dspritefrect);
+	}
+	if (dspriteoffset != NULL) {
+	free(dspriteoffset);
 	}
 }

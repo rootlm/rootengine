@@ -7,6 +7,8 @@ typedef struct {
 SDL_Rect framerect;
 char animlength;
 SDL_Texture* sheet;
+unsigned short xoff;
+unsigned short yoff;
 } sprite;
 
 //Define sprite names and corresponding numbers here
