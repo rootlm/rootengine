@@ -45,31 +45,3 @@ char dtmi = 0;
 	dtmi += 1;
 	}
 }
-
-/*void DrawTileMap() {
-SDL_Rect dtrect;
-SDL_Rect dtrect2;
-dtrect.w = 32;
-dtrect.h = 32;
-dtrect2.w = 32;
-dtrect2.h = 32;
-unsigned short dtmi = 0;
-unsigned char lines;
-*view_x = 0;
-*view_y = 0;
-	while (lines < 23) {
-	dtmi = ((*view_x / tilesize) - 1) + (*MAPWIDTH * lines);
-		while (dtmi < 45) {
-			dtrect.x = (TileArray[dtmi] % *MAPWIDTH) * tilesize; //framerect x
-			dtrect.y = floor(TileArray[dtmi] / 8) * tilesize; //framerect y (replace y with length of tileset / tilesize later!!)
-			dtrect.w = tilesize; //self explanatory
-			dtrect.h = tilesize; //duh
-			dtrect2.x = (dtmi % *MAPWIDTH) * tilesize; //destination x
-			dtrect2.y = floor(dtmi / *MAPWIDTH) * tilesize; //destination y
-			dtrect2.w = tilesize;
-			dtrect2.h = tilesize;
-			SDL_RenderCopyEx(renderer,SSheet_Tileset,&dtrect,&dtrect2,0,NULL,SDL_FLIP_NONE);
-			dtmi += 1;
-		}
-	}
-}*/
