@@ -10,6 +10,9 @@
 #include "globaldef.h"
 #include "math2.h"
 
+#include "tilemap.h"
+#include "collision.h"
+
 
 //main loop flag
 char quit = 0;
@@ -43,11 +46,14 @@ GAME_SURFACE = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA4444,SDL_TEXTUREAC
 //Load textures
 SSheet_Bullets = Engine_LoadGraphic("SprBullets.png");
 SSheet_Player = Engine_LoadGraphic("SprPlayer.png");
+SSheet_Tileset = SSheet_Bullets;
 
 //---------------------
 
 InitSpriteArray();
 InitObjectArray();
+
+InitTiles();
 
 
 float* sine;
@@ -61,16 +67,38 @@ int* interval;
 interval = (int *) malloc(sizeof(int));
 *interval = 0;
 
-int* obji; //used this in the object loop
+signed short* obji; //used this in the object loop
 obji = (signed short *) malloc(sizeof(signed short));
 
 int* timer;
 timer = (int *) malloc(sizeof(int));
 *timer = 0;
 
-//printf("%.6f\n",dsin(180));
-//printf("%.6f\n",sin(3.14));
-//printf("%.6f\n",degtorad(180));
+//stuff to test the collision!
+float *triarray = (float*)calloc(15, 15 * sizeof(float));
+float *colline1 = (float*)calloc(4, 4 * sizeof(float));
+float *colline2 = (float*)calloc(4, 4 * sizeof(float));
+
+triarray[2] = 20;
+triarray[3] = 20;
+triarray[4] = 21;
+triarray[5] = -1;
+triarray[7] = 20;
+triarray[8] = 10;
+triarray[10] = 1;
+triarray[11] = 10;
+triarray[13] = 20;
+triarray[14] = 21;
+triarray[15] = 1;
+colline1[4] = 40;
+colline2[4] = 40;
+colline1[1] = 0;
+colline1[2] = 0;
+colline1[3] = 60;
+
+colline2[1] = 20;
+colline2[2] = 0;
+colline2[3] = 40;
 
 
 CreateObject(0,320,240); //test player
@@ -84,25 +112,46 @@ SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 EventHandler();
 UpdateKeys();
 
-draw_sprite_ext(3,*timer / 6,320,240,2.5+dsin(*timer)*1.5,2.5+dsin(*timer)*1.5,rand()%360);
+DrawTileMap();
+draw_sprite_ext(3,*timer / 6,320,240,2.5+dsin(*timer)*1.5,2.5+dsin(*timer)*1.5,dsin(*timer)*45);
 *timer += 1;
-//printf("%i\n",*timer);
+
+//test collision!
+SDL_RenderDrawLine(renderer, triarray[1], triarray[2], triarray[3], triarray[4]);
+SDL_RenderDrawLine(renderer, triarray[6], triarray[7], triarray[8], triarray[9]);
+SDL_RenderDrawLine(renderer, triarray[11], triarray[12], triarray[13], triarray[14]);
+SDL_RenderDrawLine(renderer, 0, 0, 0, 0);
+printf("%hi\n", point_in_shape(triarray, Objects[0].x, Objects[0].y, 0, 0,3));
+
+
 
 //player (there isn't an object loop so eh)
 if (keyboard_check(LeftButtonState)) {
 	Objects[0].x -= 4 - keyboard_check(JumpButtonState)*2;
 	}
+	while (point_in_shape(triarray, Objects[0].x, Objects[0].y, 0, 0,3)) {
+	Objects[0].x+=1;
+	}
 	if (keyboard_check(RightButtonState)) {
 	Objects[0].x += 4 - keyboard_check(JumpButtonState)*2;
+	}
+	while (point_in_shape(triarray, Objects[0].x, Objects[0].y, 0, 0,3)) {
+	Objects[0].x-=1;
 	}
 	if (keyboard_check(UpButtonState)) {
 	Objects[0].y -= 4 - keyboard_check(JumpButtonState)*2;
 	}
+	while (point_in_shape(triarray, Objects[0].x, Objects[0].y, 0, 0,3)) {
+	Objects[0].y+=1;
+	}
 	if (keyboard_check(DownButtonState)) {
 	Objects[0].y += 4 - keyboard_check(JumpButtonState)*2;
 	}
+	while (point_in_shape(triarray, Objects[0].x, Objects[0].y, 0, 0,3)) {
+	Objects[0].y-=1;
+	}
 
-draw_sprite_ext(SPR_PLAYER,0,Objects[0].x,Objects[0].y,1,1,0);
+draw_sprite_ext(SPR_PLAYER,*timer / 4,Objects[0].x,Objects[0].y,1,1,0);
 
 
 SDL_SetRenderTarget(renderer,NULL);
