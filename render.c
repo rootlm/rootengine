@@ -74,6 +74,11 @@ int initimgflags=IMG_INIT_PNG;
 IMG_Init(initimgflags);
 }
 
+void draw_sprite(short dsprite,unsigned short dsfrm,float dsx,float dsy) {
+}
+
+void draw_sprite_view(short dsprite,unsigned short dsfrm,float dsx,float dsy) { //same but it adds the viewx/y
+}
 
 void draw_sprite_ext(short dsprite,unsigned short dsfrm,float dsx,float dsy,float dxsc,float dysc,short dsrot) {
 SDL_Point* dspriteoffset; //self explanatory
@@ -112,4 +117,7 @@ SDL_Rect* dspritefrect; //Copy of the framerect that it uses for animation
 	if (dspriteoffset != NULL) {
 	free(dspriteoffset);
 	}
+}
+
+void draw_sprite_view_ext(short dsprite,unsigned short dsfrm,float dsx,float dsy,float dxsc,float dysc,short dsrot) {
 }
