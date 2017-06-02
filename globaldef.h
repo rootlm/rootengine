@@ -22,5 +22,5 @@ long* view_x;
 long* view_y;
 long* view_w;
 long* view_h;
-long* view_scale;
+float* view_scale;
 #endif

@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.c math2.c input.c render.c objtypes.c sprtypes.c tilemap.c collision.c
+OBJS = main.c math2.c input.c render.c objtypes.c sprtypes.c tilemap.c collision.c bfont.c
 
 #CC specifies which compiler we're using
 CC = gcc
